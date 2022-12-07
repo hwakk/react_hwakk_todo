@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AddTodo from "../AddTodo/AddTodo";
 import Todo from "../Todo/Todo";
 
-function TodoList(props) {
+function TodoList({ filter }) {
   // TodoList 보여주기
   // TodoList status에 따라 checkbox 체크
   // checkbox 변경되면 TodoList의 status도 변경
@@ -31,10 +31,12 @@ function TodoList(props) {
     );
   };
 
+  const filtered = getFilteredItems(todos, filter);
+
   return (
     <>
       <ul>
-        {todos.map((todo) => (
+        {filtered.map((todo) => (
           <Todo
             key={todo.id}
             todo={todo}
@@ -46,6 +48,15 @@ function TodoList(props) {
       <AddTodo handleAdd={handleAdd} />
     </>
   );
+}
+
+function getFilteredItems(todos, filter) {
+  if (filter === "all") {
+    return todos;
+  }
+  return todos.filter((todo) => {
+    return todo.status === filter;
+  });
 }
 
 export default TodoList;
